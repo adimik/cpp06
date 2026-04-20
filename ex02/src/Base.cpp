@@ -6,7 +6,7 @@
 /*   By: didimitr <didimitr@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 16:35:14 by didimitr          #+#    #+#             */
-/*   Updated: 2026/03/04 20:53:40 by didimitr         ###   ########.fr       */
+/*   Updated: 2026/04/20 16:04:15 by didimitr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,38 +30,24 @@ Base* generate(void) {
 
 void identify(Base* p) {
     if(dynamic_cast<A*>(p))
-        std::cout << "Im class A!" << std::endl;
+        std::cout << "A" << std::endl;
     else if(dynamic_cast<B*>(p))  
-        std::cout << "Im class B!" << std::endl;  
+        std::cout << "B" << std::endl;  
     else if(dynamic_cast<C*>(p))
-        std::cout << "Im class C!" << std::endl;
+        std::cout << "C" << std::endl;
 }
 
 void identify(Base& p){
-    try
+    if(dynamic_cast<A*>(&p))
     {
-        dynamic_cast<A&>(p);
-        std::cout << "Im class A!" << std::endl;
-        return;
+        std::cout << "A" << std::endl;
     }
-    catch(const std::exception& e)
-    {}
-    try
+    else if(dynamic_cast<B*>(&p))
     {
-        dynamic_cast<B&>(p);
-        std::cout << "Im class B!" << std::endl;
-        return;
+        std::cout << "B" << std::endl;
     }
-    catch(const std::exception& e)
+    else if(dynamic_cast<C*>(&p))
     {
-    }   
-    try
-    {
-        dynamic_cast<C&>(p);
-        std::cout << "Im class C!" << std::endl;
-        return;
-    }
-    catch(const std::exception& e)
-    {
+        std::cout << "C" << std::endl;
     }
 }

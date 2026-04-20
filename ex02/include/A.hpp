@@ -6,7 +6,7 @@
 /*   By: didimitr <didimitr@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 16:42:36 by didimitr          #+#    #+#             */
-/*   Updated: 2026/03/04 17:25:48 by didimitr         ###   ########.fr       */
+/*   Updated: 2026/04/20 16:09:49 by didimitr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,3 @@ class A : public Base {
     public:
         ~A();
 };
-
