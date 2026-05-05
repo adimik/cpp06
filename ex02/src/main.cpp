@@ -6,7 +6,7 @@
 /*   By: didimitr <didimitr@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 16:38:24 by didimitr          #+#    #+#             */
-/*   Updated: 2026/04/21 15:14:18 by didimitr         ###   ########.fr       */
+/*   Updated: 2026/05/05 18:45:03 by didimitr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,35 @@ void identify(Base* p) {
 }
 
 void identify(Base& p){
-    if(dynamic_cast<A*>(&p))
+    try
     {
+        (void)dynamic_cast<A&>(p);
         std::cout << "A" << std::endl;
+        return;
     }
-    else if(dynamic_cast<B*>(&p))
+    catch(const std::exception& e)
     {
+    }
+    try
+    {
+        (void)dynamic_cast<B&>(p);
         std::cout << "B" << std::endl;
+        return;
     }
-    else if(dynamic_cast<C*>(&p))
+    catch(const std::exception& e)
     {
+    }
+    try
+    {
+        (void)dynamic_cast<C&>(p);
         std::cout << "C" << std::endl;
+        return;
+    }
+    catch(const std::exception& e)
+    {
     }
 }
+
 
 int main(void)
 {
