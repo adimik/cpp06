@@ -6,11 +6,11 @@
 /*   By: didimitr <didimitr@student.42luxembourg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:47:28 by didimitr          #+#    #+#             */
-/*   Updated: 2026/02/16 21:10:29 by didimitr         ###   ########.fr       */
+/*   Updated: 2026/05/06 13:31:29 by didimitr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScalarConverter.hpp"
+#include "../include/ScalarConverter.hpp"
 #include <cstdlib>
 #include <limits>
 #include <cerrno>
@@ -37,7 +37,9 @@ void ScalarConverter::convert(const std::string& input) {
     DataType data = parser(input);
     displayConvert(data, input);
 }
-ScalarConverter::DataType ScalarConverter::PseudoCheck(const std::string& input) {
+
+// Helper functions (outside class)
+DataType PseudoCheck(const std::string& input) {
     if(input == "nanf" || input == "+inff" || input == "-inff")
         return(PSEUDO_FLOAT);
     if(input == "nan" || input == "+inf" || input == "-inf")
@@ -46,17 +48,22 @@ ScalarConverter::DataType ScalarConverter::PseudoCheck(const std::string& input)
         return(UNKNOWN);
 }
 
-void ScalarConverter::displayConvert(const DataType& data, const std::string& input) {
+void displayConvert(const DataType& data, const std::string& input) {
     if(data == UNKNOWN)
+    {
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: impossible" << std::endl;
+        std::cout << "double: impossible" << std::endl;
         return;
+    }
     displayChar(data, input);
     displayInt(data, input);
     displayFloat(data,input);
     displayDouble(data, input);
 }
 
-void ScalarConverter::displayChar(const DataType& data, const std::string& input){
- 
+void displayChar(const DataType& data, const std::string& input){
     if(data == CHAR)
     {
         std::cout << "char: '" << input << "'" << std::endl;
@@ -74,7 +81,7 @@ void ScalarConverter::displayChar(const DataType& data, const std::string& input
         std::cout << "char: '" << (static_cast<char>(i)) << "'" << std::endl;   
 }
 
-void ScalarConverter::displayInt(const DataType& data, const std::string& input) {
+void displayInt(const DataType& data, const std::string& input) {
     if(data == INT)
     {
         std::cout << "int: " << input << std::endl;
@@ -97,7 +104,7 @@ void ScalarConverter::displayInt(const DataType& data, const std::string& input)
     }
 }
 
-void ScalarConverter::displayFloat(const DataType& data, const std::string& input) {
+void displayFloat(const DataType& data, const std::string& input) {
     char *end = NULL;
     errno = 0;
     double i = std::strtod(input.c_str(), &end);
@@ -125,10 +132,10 @@ void ScalarConverter::displayFloat(const DataType& data, const std::string& inpu
     }
 }
 
-void ScalarConverter::displayDouble(const DataType& data,const std::string& input){
+void displayDouble(const DataType& data,const std::string& input){
     errno = 0;
     if(data == PSEUDO_FLOAT)
-        std::cout << "double: " << input.substr(0, input.size() - 1) << std::endl;  // fix to remove 'f'
+        std::cout << "double: " << input.substr(0, input.size() - 1) << std::endl;
     else if (data == PSEUDO_DOUBLE)
         std::cout << "double: " << input << std::endl;
     else if (data == CHAR)
@@ -156,7 +163,7 @@ void ScalarConverter::displayDouble(const DataType& data,const std::string& inpu
     }
 }
 
-ScalarConverter::DataType ScalarConverter::isInt(const std::string& input) {
+DataType isInt(const std::string& input) {
     char *end = NULL;
     errno = 0;
     long i = std::strtol(input.c_str(), &end, 10);
@@ -167,13 +174,13 @@ ScalarConverter::DataType ScalarConverter::isInt(const std::string& input) {
     return(INT);
 }
 
-ScalarConverter::DataType ScalarConverter::isChar(const std::string& input) {
+DataType isChar(const std::string& input) {
     if(input.size() == 1 && std::isprint(static_cast <unsigned char>(input[0])) && !std::isdigit(static_cast <unsigned char>(input[0])))
         return(CHAR);
     return(UNKNOWN);
 }
 
-ScalarConverter::DataType ScalarConverter::isFloat(const std::string& input){
+DataType isFloat(const std::string& input){
     char *end = NULL;
     const char *start = input.c_str();
     errno = 0;
@@ -186,7 +193,7 @@ ScalarConverter::DataType ScalarConverter::isFloat(const std::string& input){
     return(UNKNOWN);
 }
 
-ScalarConverter::DataType ScalarConverter::isDouble(const std::string& input){
+DataType isDouble(const std::string& input){
     char *end = NULL;
     const char *start = input.c_str();
     errno = 0;
@@ -197,8 +204,7 @@ ScalarConverter::DataType ScalarConverter::isDouble(const std::string& input){
     return(DOUBLE);
 }
 
-ScalarConverter::DataType ScalarConverter::parser(const std::string& input) {
-    
+DataType parser(const std::string& input) {
     DataType type = PseudoCheck(input);
     if(type != UNKNOWN)
         return(type);
